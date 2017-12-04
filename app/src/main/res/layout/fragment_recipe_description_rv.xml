@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:layout_margin="10dp"
+    tools:ignore="Overdraw,UnusedResources">
+
+    <LinearLayout
+        android:id="@+id/descriptionLL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/descriptionStepNumber"
+            android:layout_width="@dimen/descriptionStepNumber"
+            android:layout_height="wrap_content"
+            tools:text="1."
+            android:gravity="center"
+            android:textAppearance="@style/RecipeDescription" />
+
+        <TextView
+            android:id="@+id/descriptionStepName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Introduction"
+            android:textAppearance="@style/RecipeDescription"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/descriptionLL"
+        android:background="@android:color/black" />
+
+
+
+</RelativeLayout>

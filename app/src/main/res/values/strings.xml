@@ -1,0 +1,8 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <string name="app_name">Chef\'s Special</string>
+
+    <string name="recipe_Image" tools:ignore="UnusedResources">recipeImage</string>
+    <string name="recipe_description" tools:ignore="UnusedResources">Recipe Description</string>
+    <string name="description">Description</string>
+</resources>

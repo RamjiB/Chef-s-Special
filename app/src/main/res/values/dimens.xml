@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    //ToolBar
+    <dimen name="toolBarWidth">0dp</dimen>
+    <dimen name="toolBarHeight">50dp</dimen>
+
+    //Recipe List Activity
+    <dimen name="recipeImageHeight" tools:ignore="UnusedResources">180dp</dimen>
+    <dimen name="recipeListRVWidth">0dp</dimen>
+    <dimen name="descriptionStepNumber" tools:ignore="UnusedResources">50dp</dimen>
+
+    //Recipe detail activity
+    <dimen name="recipeDetailWidth">395dp</dimen>
+    <dimen name="VideoHeight">250dp</dimen>
+    <dimen name="recipeDetailTopMargin">8dp</dimen>
+    <dimen name="recipeDetailStartMargin">8dp</dimen>
+    <dimen name="recipeDetailEndMargin">8dp</dimen>
+    <dimen name="previous_NextBtMargin">15dp</dimen>
+
+</resources>
