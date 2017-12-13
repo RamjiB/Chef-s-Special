@@ -1,0 +1,28 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/appwidget"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    xmlns:tool="http://schemas.android.com/tools">
+
+    <TextView
+        android:id="@+id/appwidget_recipeName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        tool:text="Recipe Name"
+        android:textSize="20sp"
+        android:textColor="#000000"
+        android:padding="10dp"
+        android:gravity="center_horizontal"/>
+
+    <TextView
+        android:id="@+id/appwidget_ingredients"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/appwidget_recipeName"
+        android:textColor="#000000"
+        android:padding="10dp"
+        android:lineSpacingExtra="1dp"/>
+
+</RelativeLayout>

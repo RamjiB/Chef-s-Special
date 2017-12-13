@@ -1,31 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
-    tools:context="com.rubys.android.chefsspecial.ListOfRecipes">
+    tools:context="com.rubys.android.chefsspecial.list_of_recipes.ListOfRecipes">
 
     <!-- Title Bar -->
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/titleToolbar"
-        android:layout_width="@dimen/toolBarWidth"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/toolBarHeight"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:background="@color/colorPrimary" />
 
     <!-- Recipe List RecyclerView -->
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recipeListRV"
-        android:layout_width="@dimen/recipeListRVWidth"
+        android:layout_below="@id/titleToolbar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/titleToolbar"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        android:layout_marginTop="10dp"/>
 
 
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>

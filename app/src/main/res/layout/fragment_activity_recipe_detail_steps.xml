@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constrainLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff">
+
+    <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+        android:id="@+id/recipeVideo"
+        android:layout_width="0dp"
+        android:layout_height="250dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/noVideoImage"
+        android:layout_width="0dp"
+        android:layout_height="250dp"
+        android:visibility="invisible"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/video_url_is_empty" />
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/playVideo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toBottomOf="@+id/recipeVideo"
+        app:layout_constraintLeft_toLeftOf="@+id/recipeVideo"
+        app:layout_constraintRight_toRightOf="@+id/recipeVideo"
+        app:layout_constraintTop_toTopOf="@+id/recipeVideo"
+        app:srcCompat="@android:drawable/ic_media_play" />
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="395dp"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="@string/description"
+        android:textStyle="bold"
+        android:textAppearance="@style/RecipeDescription"
+        android:layout_marginTop="@dimen/recipeDetailTopMargin"
+        android:layout_marginStart="@dimen/recipeDetailStartMargin"
+        app:layout_constraintTop_toBottomOf="@+id/recipeVideo"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@android:color/black"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/description" />
+
+
+    <TextView
+        android:id="@+id/instructionTV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:padding="10dp"
+        android:textAppearance="@style/RecipeDetailInstructionsView"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/description"
+        tools:text="Instruction steps"
+        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"/>
+
+    <!-- ingredients recycler view -->
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/ingredientsListRV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/previousStep"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:fabSize="mini"
+        app:srcCompat="@drawable/ic_previous"
+        android:layout_marginStart="@dimen/previous_NextBtMargin"
+        android:layout_marginBottom="@dimen/previous_NextBtMargin"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/nextStep"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:fabSize="mini"
+        app:srcCompat="@drawable/ic_next"
+        android:layout_marginEnd="@dimen/previous_NextBtMargin"
+        android:layout_marginBottom="@dimen/previous_NextBtMargin"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</android.support.constraint.ConstraintLayout>
+
+
+
+
+

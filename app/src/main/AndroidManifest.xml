@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.rubys.android.chefsspecial">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -9,16 +13,35 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:fullBackupContent="@xml/backup_descriptor">
-        <activity android:name=".ListOfRecipes">
+        tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+
+        <activity android:name=".list_of_recipes.ListOfRecipes">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Recipe" />
-        <activity android:name=".RecipeDetailSteps" />
+
+        <activity android:name=".recipe_description.Recipe" />
+        <activity android:name=".recipe_detail_steps.RecipeDetailSteps" />
+
+        <receiver android:name=".widget.ChefsSpecialWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/chefs_special_widget_provider_info" />
+        </receiver>
+
+        <service android:name=".widget.RecipeUpdatedWidget" />
+
+        <provider
+            android:name=".data.DesiredRecipeContentProvider"
+            android:authorities="com.rbuys.android.chefsspecial"
+            android:exported="false" />
     </application>
 
 </manifest>

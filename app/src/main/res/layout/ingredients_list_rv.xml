@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:layout_margin="5dp"
+    tools:ignore="Overdraw,UnusedResources">
+
+    <LinearLayout
+        android:id="@+id/descriptionLL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/stepNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="1."
+            android:gravity="center"
+            android:textAppearance="@style/RecipeDescription" />
+
+        <TextView
+            android:id="@+id/ingredient"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Graham Cracker crumbs "
+            android:textAppearance="@style/RecipeDescription"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/descriptionLL"
+        android:background="@android:color/black" />
+
+</RelativeLayout>

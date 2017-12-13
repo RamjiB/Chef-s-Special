@@ -8,8 +8,9 @@
 
     <TextView
         android:id="@+id/recipeDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/recipe_description_height"
+        android:gravity="center_vertical"
         android:text="@string/recipe_description"
         android:textAppearance="@style/RecipeDescription"
         android:textStyle="bold"
@@ -17,7 +18,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="2dp"
         android:background="@android:color/black" />
 
     <!-- Recipe Description RecyclerView -->

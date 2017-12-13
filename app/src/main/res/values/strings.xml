@@ -5,4 +5,10 @@
     <string name="recipe_Image" tools:ignore="UnusedResources">recipeImage</string>
     <string name="recipe_description" tools:ignore="UnusedResources">Recipe Description</string>
     <string name="description">Description</string>
+    <string name="ingredientsText" tools:ignore="UnusedResources">Ingredients</string>
+    <string name="video_url_is_empty">video url is empty</string>
+    <string name="refresh">Refresh</string>
+    <string name="appwidget_text" tools:ignore="UnusedResources">EXAMPLE</string>
+    <string name="add_widget" tools:ignore="UnusedResources">Add widget</string>
+    <string name="widgetImage" tools:ignore="UnusedResources">widgetImage</string>
 </resources>

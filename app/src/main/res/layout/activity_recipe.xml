@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
-    tools:context="com.rubys.android.chefsspecial.Recipe"
+    tools:context="com.rubys.android.chefsspecial.recipe_description.Recipe"
     tools:ignore="Overdraw">
 
     <!-- Title Bar -->
@@ -12,15 +12,17 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/titleToolbar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/toolBarHeight" />
+        android:layout_height="@dimen/toolBarHeight"
+        android:background="@color/colorPrimary"/>
 
     <!-- Fragment -->
 
     <fragment
         android:id="@+id/recipeDescriptionFragment"
-        android:name="com.rubys.android.chefsspecial.RecipeDescriptionFragment"
+        android:name="com.rubys.android.chefsspecial.recipe_description.RecipeDescriptionFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/titleToolbar" />
+        android:layout_below="@id/titleToolbar"/>
+
 
 </RelativeLayout>
