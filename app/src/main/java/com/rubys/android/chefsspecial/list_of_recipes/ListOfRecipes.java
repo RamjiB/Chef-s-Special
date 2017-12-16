@@ -39,8 +39,9 @@ public class ListOfRecipes extends AppCompatActivity implements RecipeListAdapte
     private static final String TAG = "ListOfRecipes";
 
     public static final String RECIPE_NAMES = "recipe name";
+    public static final String RECIPE_DETAILS = "Recipe Details";
 
-    public static final String jsonUrl = "https://d17h27t6h515a5.cloudfront.net/topher/2017" +
+    private static final String jsonUrl = "https://d17h27t6h515a5.cloudfront.net/topher/2017" +
             "/May/59121517_baking/baking.json";
 
     //saved instance constance
@@ -49,6 +50,8 @@ public class ListOfRecipes extends AppCompatActivity implements RecipeListAdapte
 
     private RecipeListAdapter recipeListAdapter;
     private RecyclerView recipeRecyclerView;
+
+    private Intent intent;
 
 
     @Override
@@ -115,6 +118,11 @@ public class ListOfRecipes extends AppCompatActivity implements RecipeListAdapte
 
                 String[] recipeNames = RecipeJsonUtils.getRecipeName(recipeJson);
                 Log.i(TAG,"recipeNames: " + Arrays.toString(recipeNames));
+
+
+
+                //get recipeDetails
+
                 return recipeNames;
 
             } catch (Exception e) {
@@ -150,9 +158,54 @@ public class ListOfRecipes extends AppCompatActivity implements RecipeListAdapte
     @Override
     public void onItemClick(String recipeName) {
         Log.i(TAG,"moving into Recipe activity");
-        Intent intent = new Intent(ListOfRecipes.this,Recipe.class);
+        //fetching details from Recipe json
+        new FetchRecipeDescription().execute(jsonUrl, recipeName);
+
+        intent = new Intent(ListOfRecipes.this,Recipe.class);
         intent.putExtra(RECIPE_NAMES,recipeName);
-        startActivity(intent);
+    }
+
+    /**
+     * Fetching recipe short description details
+     */
+    private class FetchRecipeDescription extends AsyncTask<String,Void,String[]> {
+
+
+        @Override
+        protected String[] doInBackground(String... params) {
+            Log.i(TAG,"params: "+ Arrays.toString(params));
+
+            try {
+
+                URL url = new URL(params[0]);
+                Log.i(TAG,"url: " + url);
+
+                String recipeJson = NetworkUtils.getResponseFromHttpUrl(url);
+                Log.i(TAG,"json: " + recipeJson);
+
+                String[] recipeDetails = RecipeJsonUtils.
+                        getRecipeDetails(recipeJson,params[1]);
+
+                Log.i(TAG,"recipeDetails: "+ Arrays.toString(recipeDetails));
+
+                return recipeDetails;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String[] recipeDetails) {
+
+            if (recipeDetails != null){
+                intent.putExtra(RECIPE_DETAILS,recipeDetails);
+                startActivity(intent);
+
+            }
+
+        }
     }
 
     @Override
@@ -188,6 +241,8 @@ public class ListOfRecipes extends AppCompatActivity implements RecipeListAdapte
             RecipeUpdatedWidget.startActionUpdateRecipeWidgets(ListOfRecipes.this);
         }
     }
+
+    //Fetch recipe ingredients
 
     private class FetchRecipeIngredients extends AsyncTask<String,Void,String[]>{
 
@@ -241,7 +296,10 @@ public class ListOfRecipes extends AppCompatActivity implements RecipeListAdapte
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelable(KEY_RECYCLER_STATE,recipeRecyclerView.getLayoutManager().onSaveInstanceState());
+        if (recipeRecyclerView != null) {
+
+            outState.putParcelable(KEY_RECYCLER_STATE, recipeRecyclerView.getLayoutManager().onSaveInstanceState());
+        }
     }
 
     @Override

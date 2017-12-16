@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.rubys.android.chefsspecial.recipe_description.Recipe">
+
+    <!-- Title Bar -->
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/titleToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_600dp_height"
+        android:background="@color/colorPrimary" />
+
+
+    <LinearLayout
+        android:id="@+id/multiPane"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        tools:ignore="InconsistentLayout">
+
+        <!-- Fragment -->
+
+        <fragment
+            android:id="@+id/recipeDescriptionFragment"
+            android:name="com.rubys.android.chefsspecial.recipe_description.RecipeDescriptionFragment"
+            android:layout_width="200dp"
+            android:layout_height="match_parent"/>
+
+        <!-- A small divider -->
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/darker_gray" />
+
+        <!-- container to hold views in fragment -->
+        <FrameLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:ignore="InconsistentLayout" />
+
+    </LinearLayout>
+
+
+
+
+
+
+</LinearLayout>

@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.rubys.android.chefsspecial.R;
 import com.rubys.android.chefsspecial.data.DesiredRecipeContract;
+import com.squareup.picasso.Picasso;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -26,6 +27,7 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
     private String[] mRecipeNames;
 
     private Cursor mCursor;
+    private Context mContext;
 
     /**
      * The interface that receives on click listener
@@ -41,7 +43,7 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
 
     @Override
     public RecipeListAdapter.RecipeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Context mContext = parent.getContext();
+        mContext = parent.getContext();
         View view = LayoutInflater.from(mContext).inflate(R.layout.recipe_list_rv,parent,false);
         Log.i(TAG,"onCreateViewHolder");
         return new RecipeViewHolder(view);
@@ -64,6 +66,8 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
             Log.i(TAG,"RECIPE_IMAGE: "+ RECIPE_IMAGE);
             if (Objects.equals(RECIPE_IMAGE, " ")) {
                 holder.recipeImage.setImageResource(ImageAsset.getRecipeImages().get(position));
+            }else{
+                Picasso.with(mContext).load(RECIPE_IMAGE).into(holder.recipeImage);
             }
 
             if (mCursor != null){

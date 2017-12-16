@@ -12,6 +12,7 @@
         android:id="@+id/recipeVideo"
         android:layout_width="0dp"
         android:layout_height="250dp"
+        android:visibility="invisible"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -33,6 +34,7 @@
         android:layout_height="wrap_content"
         android:clickable="true"
         app:fabSize="mini"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/recipeVideo"
         app:layout_constraintLeft_toLeftOf="@+id/recipeVideo"
         app:layout_constraintRight_toRightOf="@+id/recipeVideo"
@@ -43,6 +45,8 @@
         android:id="@+id/description"
         android:layout_width="395dp"
         android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:background="@drawable/description_view_bottom_border"
         android:padding="5dp"
         android:text="@string/description"
         android:textStyle="bold"
@@ -52,14 +56,6 @@
         app:layout_constraintTop_toBottomOf="@+id/recipeVideo"
         app:layout_constraintLeft_toLeftOf="parent" />
 
-    <View
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:background="@android:color/black"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/description" />
-
 
     <TextView
         android:id="@+id/instructionTV"
@@ -67,6 +63,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="7dp"
         android:padding="10dp"
+        android:visibility="invisible"
         android:textAppearance="@style/RecipeDetailInstructionsView"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -84,7 +81,7 @@
         android:id="@+id/ingredientsListRV"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:visibility="invisible"
+        android:visibility="visible"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

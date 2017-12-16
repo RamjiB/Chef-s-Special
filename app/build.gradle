@@ -51,4 +51,7 @@ dependencies {
         exclude module: 'recyclerview-v7'
     }
     compile 'com.android.support.test.espresso:espresso-idling-resource:2.2.2'
+
+    //Picasso to load images from url
+    compile 'com.squareup.picasso:picasso:2.5.2'
 }

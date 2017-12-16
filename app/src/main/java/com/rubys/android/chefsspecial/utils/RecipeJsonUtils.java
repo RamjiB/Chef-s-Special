@@ -7,8 +7,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Objects;
-
 public class RecipeJsonUtils {
 
     private static final String TAG = "RecipeJsonUtils";
@@ -174,14 +172,12 @@ public class RecipeJsonUtils {
                         String RECIPE_VIDEO_URL = "videoURL";
                         String videoURL = recipeSteps.getString(RECIPE_VIDEO_URL);
 
-                        if (Objects.equals(videoURL, "")){
-
-                            String RECIPE_THUMBNAIL_URL = "thumbnailURL";
-                            videoURL = recipeSteps.getString(RECIPE_THUMBNAIL_URL);
-                        }
+                        //get thumbnail url
+                        String THUMBNAIL_URL = "thumbnailURL";
+                        String thumbnailUrl = recipeSteps.getString(THUMBNAIL_URL);
 
                         getRecipeDetails[j] = shortDescription + "> " + description + "> "+
-                                                            videoURL;
+                                                            videoURL + "> " + thumbnailUrl;
                     }
                 }
 
