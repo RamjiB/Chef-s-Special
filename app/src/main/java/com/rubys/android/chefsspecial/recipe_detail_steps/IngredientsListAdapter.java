@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.rubys.android.chefsspecial.R;
 
+import java.util.Arrays;
+
 public class IngredientsListAdapter extends
                             RecyclerView.Adapter<IngredientsListAdapter.IngredientViewHolder>{
 
@@ -86,6 +88,8 @@ public class IngredientsListAdapter extends
     void setIngredients(String ingredients){
 
         mIngredients = ingredients.split(":");
+
+        Log.i(TAG,"mIngredients: "+ Arrays.toString(mIngredients));
         notifyDataSetChanged();
 
     }

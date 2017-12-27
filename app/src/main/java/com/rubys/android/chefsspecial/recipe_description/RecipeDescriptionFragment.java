@@ -38,6 +38,7 @@ public class RecipeDescriptionFragment extends Fragment implements RecipeDescrip
     private final String KEY_RECYCLER_STATE = "recycler_state";
     private Parcelable listState;
     public static String[] mRecipeDetail;
+    public static int mAdapterPosition;
 
     //Mandatory empty constructor
     public RecipeDescriptionFragment() {
@@ -63,16 +64,10 @@ public class RecipeDescriptionFragment extends Fragment implements RecipeDescrip
 
 
         recipeDescriptionRV = (RecyclerView) view.findViewById(R.id.recipeDescriptionRV);
-
-        Log.i(TAG,"1");
-
+        
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recipeDescriptionRV.setLayoutManager(linearLayoutManager);
         recipeDescriptionRV.setHasFixedSize(true);
-        Log.i(TAG,"2");
-
-//        //fetching details from Recipe json
-//        new FetchRecipeDescription().execute(jsonUrl, recipeName);
 
         RecipeDescriptionListAdapter recipeDescriptionListAdapter = new RecipeDescriptionListAdapter(this);
         recipeDescriptionRV.setAdapter(recipeDescriptionListAdapter);
@@ -91,57 +86,6 @@ public class RecipeDescriptionFragment extends Fragment implements RecipeDescrip
 
     }
 
-//    /**
-//     * Fetching recipe short description details
-//     */
-//    private class FetchRecipeDescription extends AsyncTask<String,Void,String[]> {
-//
-//
-//        @Override
-//        protected String[] doInBackground(String... params) {
-//            Log.i(TAG,"params: "+ Arrays.toString(params));
-//
-//            try {
-//
-//                URL url = new URL(params[0]);
-//                Log.i(TAG,"url: " + url);
-//
-//                String recipeJson = NetworkUtils.getResponseFromHttpUrl(url);
-//                Log.i(TAG,"json: " + recipeJson);
-//
-//                String[] recipeDetails = RecipeJsonUtils.
-//                                                getRecipeDetails(recipeJson,params[1]);
-//
-//                Log.i(TAG,"recipeDetails: "+ Arrays.toString(recipeDetails));
-//
-//                return recipeDetails;
-//
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                return null;
-//            }
-//        }
-//
-//        @Override
-//        protected void onPostExecute(String[] recipeDetails) {
-//
-//            if (recipeDetails != null){
-//
-//                Log.i(TAG,"mRecipeDetail: "+ Arrays.toString(mRecipeDetail));
-//
-//                if (listState != null){
-//                    recipeDescriptionRV.getLayoutManager().onRestoreInstanceState(listState);
-//                    recipeDescriptionListAdapter.setRecipeDescriptionSteps(recipeDetails);
-//                }else {
-//
-//                    recipeDescriptionListAdapter.setRecipeDescriptionSteps(recipeDetails);
-//                }
-//            }
-//
-//        }
-//    }
-
-
     @Override
     public void onItemClick(String[] recipeDetails, int adapterPosition) {
 
@@ -150,11 +94,15 @@ public class RecipeDescriptionFragment extends Fragment implements RecipeDescrip
         if (tabletView){
 
             Log.i(TAG,"tabletView: "+ true);
-
+            mAdapterPosition = adapterPosition;
             recipeDetailStepsFragment.initialiseView();
-            recipeDetailStepsFragment.setUpViews(adapterPosition,recipeDetails,null);
-            fragmentManager.beginTransaction()
-                    .replace(R.id.container,recipeDetailStepsFragment).commit();
+            recipeDetailStepsFragment.setUpViews(mAdapterPosition,mRecipeDetail,null);
+            try {
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, recipeDetailStepsFragment).commitAllowingStateLoss();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
 
         }else {
 

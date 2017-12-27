@@ -20,6 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
+        android:weightSum="100"
         tools:ignore="InconsistentLayout">
 
         <!-- Fragment -->
@@ -27,20 +28,23 @@
         <fragment
             android:id="@+id/recipeDescriptionFragment"
             android:name="com.rubys.android.chefsspecial.recipe_description.RecipeDescriptionFragment"
-            android:layout_width="200dp"
-            android:layout_height="match_parent"/>
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="30"/>
 
         <!-- A small divider -->
         <View
-            android:layout_width="1dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="0.2"
             android:background="@android:color/darker_gray" />
 
         <!-- container to hold views in fragment -->
         <FrameLayout
             android:id="@+id/container"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="70"
             tools:ignore="InconsistentLayout" />
 
     </LinearLayout>

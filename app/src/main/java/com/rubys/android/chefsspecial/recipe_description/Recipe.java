@@ -37,45 +37,46 @@ public class Recipe extends AppCompatActivity {
         setContentView(R.layout.activity_recipe);
         Log.i(TAG,"onCreate");
 
-        //get recipe name from previous activity
-        Intent intent = getIntent();
-        if (intent != null){
-            if (intent.hasExtra(RECIPE_NAMES) && intent.hasExtra(RECIPE_DETAILS)){
-                RECIPE_TITLE = intent.getStringExtra(RECIPE_NAMES);
+        if(savedInstanceState == null) {
+
+            //get recipe name from previous activity
+            Intent intent = getIntent();
+            if (intent != null) {
+                if (intent.hasExtra(RECIPE_NAMES) && intent.hasExtra(RECIPE_DETAILS)) {
+                    RECIPE_TITLE = intent.getStringExtra(RECIPE_NAMES);
+                }
+            }
+
+            //Title Bar
+            Toolbar toolbar = (Toolbar) findViewById(R.id.titleToolbar);
+            toolbar.setTitle(RECIPE_TITLE);
+            setSupportActionBar(toolbar);
+
+            //Get a support ActionBar corresponding to this toolbar
+            ActionBar actionBar = getSupportActionBar();
+
+            //Enable the up button
+            assert actionBar != null;
+            actionBar.setDisplayHomeAsUpEnabled(true);
+
+            Log.i(TAG, "set recipe title: " + RECIPE_TITLE);
+
+
+            if (findViewById(R.id.multiPane) != null) {
+
+                tabletView = true;
+
+                fragmentManager = getSupportFragmentManager();
+
+                recipeDetailStepsFragment = new RecipeDetailStepsFragment();
+                fragmentManager.beginTransaction().add(R.id.container, recipeDetailStepsFragment).commit();
+
+            } else {
+
+                tabletView = false;
+
             }
         }
-
-        //Title Bar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.titleToolbar);
-        toolbar.setTitle(RECIPE_TITLE);
-        setSupportActionBar(toolbar);
-
-        //Get a support ActionBar corresponding to this toolbar
-        ActionBar actionBar = getSupportActionBar();
-
-        //Enable the up button
-        assert actionBar != null;
-        actionBar.setDisplayHomeAsUpEnabled(true);
-
-        Log.i(TAG,"set recipe title: "+ RECIPE_TITLE);
-
-
-        if (findViewById(R.id.multiPane) != null){
-
-            tabletView = true;
-
-            fragmentManager = getSupportFragmentManager();
-
-            recipeDetailStepsFragment = new RecipeDetailStepsFragment();
-            fragmentManager.beginTransaction().add(R.id.container,recipeDetailStepsFragment).commit();
-
-        }else{
-
-            tabletView = false;
-
-        }
-
-
     }
 
     @Override

@@ -44,6 +44,7 @@ import static android.view.View.GONE;
 import static com.rubys.android.chefsspecial.list_of_recipes.ListOfRecipes.RECIPE_DETAILS;
 import static com.rubys.android.chefsspecial.recipe_description.Recipe.tabletView;
 import static com.rubys.android.chefsspecial.recipe_description.RecipeDescriptionFragment.ADAPTER_POSITION;
+import static com.rubys.android.chefsspecial.recipe_description.RecipeDescriptionFragment.mAdapterPosition;
 import static com.rubys.android.chefsspecial.recipe_description.RecipeDescriptionFragment.mRecipeDetail;
 
 
@@ -55,7 +56,6 @@ public class RecipeDetailStepsFragment extends Fragment {
 
     private String[] recipeDetails;
     private int adapterPosition;
-    // --Commented out by Inspection (12/13/2017 10:02 PM):boolean tab,// --Commented out by Inspection (12/13/2017 10:02 PM):landscape;
 
     private SimpleExoPlayerView mPlayerView;
     private SimpleExoPlayer mExoPlayer;
@@ -74,9 +74,9 @@ public class RecipeDetailStepsFragment extends Fragment {
     private RecyclerView ingredientRV;
 
     //saved instance constance
-    private final String KEY_RECYCLER_STATE = "recycler_state";
-    private final String KEY_RECIPE_DETAILS = "recipe_details";
-    private final String KEY_ADAPTER_POSITION = "adapter_position";
+    public static final String KEY_RECYCLER_STATE = "recycler_state";
+    public static final String KEY_RECIPE_DETAILS = "recipe_details";
+    public static final String KEY_ADAPTER_POSITION = "adapter_position";
     private final String KEY_LANDSCAPE = "landscape";
     private final String KEY_PLAYER_POSITION = "player_position";
     private Parcelable listState;
@@ -231,9 +231,15 @@ public class RecipeDetailStepsFragment extends Fragment {
 
             setIngredientList(listState);
 
+            if (tabletView){
+                nextStep.setVisibility(View.INVISIBLE);
+                previousStep.setVisibility(View.INVISIBLE);
+            }else{
+                nextStep.setVisibility(View.VISIBLE);
+                previousStep.setVisibility(View.INVISIBLE);
+            }
+
             ingredientRV.setVisibility(View.VISIBLE);
-            nextStep.setVisibility(View.VISIBLE);
-            previousStep.setVisibility(View.INVISIBLE);
             mPlayerView.setVisibility(View.INVISIBLE);
             description.setVisibility(View.INVISIBLE);
             instruction.setVisibility(View.INVISIBLE);
@@ -246,7 +252,7 @@ public class RecipeDetailStepsFragment extends Fragment {
 
             otherViews();
 
-            if (rootView.findViewById(R.id.ingredientsListRV) != null) {
+            if (ingredientRV != null) {
 
                 if (adapterPosition == recipeDetails.length - 1) {
                     nextStep.setVisibility(View.INVISIBLE);
@@ -272,7 +278,7 @@ public class RecipeDetailStepsFragment extends Fragment {
 
         Log.i(TAG,"setIngredientList");
 
-        if (rootView.findViewById(R.id.ingredientsListRV) != null) {
+        if (ingredientRV != null) {
 
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
             ingredientRV.setLayoutManager(linearLayoutManager);
@@ -321,9 +327,11 @@ public class RecipeDetailStepsFragment extends Fragment {
             //create loader
             LoadControl loadControl = new DefaultLoadControl();
 
-            //Create the player
-            mExoPlayer = ExoPlayerFactory.newSimpleInstance(getContext(), trackSelector, loadControl);
-            Log.i(TAG,"mExoPlayer: "+ mExoPlayer);
+            if(getContext() != null) {
+                //Create the player
+                mExoPlayer = ExoPlayerFactory.newSimpleInstance(getContext(), trackSelector, loadControl);
+                Log.i(TAG, "mExoPlayer: " + mExoPlayer);
+            }
 
             try {
 
@@ -340,7 +348,7 @@ public class RecipeDetailStepsFragment extends Fragment {
             mPlayerView.setResizeMode(3);
             Log.i(TAG, "set video player");
             mPlayerView.setPlayer(mExoPlayer);
-            if (rootView.findViewById(R.id.ingredientsListRV) != null) {
+            if (ingredientRV != null) {
                 Log.i(TAG,"1");
                 mPlayerView.setUseController(false);
                 mExoPlayer.seekTo(200);
@@ -351,7 +359,11 @@ public class RecipeDetailStepsFragment extends Fragment {
                     public void onClick(View v) {
                         playVideo.setVisibility(GONE);
                         mPlayerView.setUseController(true);
-                        mExoPlayer.seekTo(0);
+                        if (playPosition != null)
+                            mExoPlayer.seekTo(playPosition);
+                        else
+                            mExoPlayer.seekTo(0);
+
                         mExoPlayer.setPlayWhenReady(true);
                     }
                 });
@@ -370,7 +382,7 @@ public class RecipeDetailStepsFragment extends Fragment {
 
     private void otherViews(){
 
-        if (rootView.findViewById(R.id.ingredientsListRV) != null) {
+        if (ingredientRV != null) {
 
             if (tabletView){
                 nextStep.setVisibility(View.INVISIBLE);
@@ -402,17 +414,12 @@ public class RecipeDetailStepsFragment extends Fragment {
                 Log.i(TAG, "recipeDetails.length: " + recipeDetails.length);
 
                 if (adapterPosition < recipeDetails.length) {
-
+                    playPosition = null;
                     setUpViews(adapterPosition, recipeDetails,null);
                     mExoPlayer.setPlayWhenReady(false);
-                    Bundle bundle = new Bundle();
-                    bundle.putInt(KEY_ADAPTER_POSITION,adapterPosition);
-                    bundle.putStringArray(KEY_RECIPE_DETAILS,recipeDetails);
-                    onSaveInstanceState(bundle);
                 }
             }
         });
-
     }
 
     private void setPreviousFloatingButton(){
@@ -426,7 +433,7 @@ public class RecipeDetailStepsFragment extends Fragment {
                 Log.i(TAG, "adapterPosition: " + adapterPosition);
 
                 if (adapterPosition > -1) {
-
+                    playPosition = null;
                     setUpViews(adapterPosition, recipeDetails,null);
                     mExoPlayer.setPlayWhenReady(false);
                 }
@@ -503,15 +510,19 @@ public class RecipeDetailStepsFragment extends Fragment {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
         Log.i(TAG,"onSaveInstanceState");
+        if (tabletView){
+            adapterPosition = mAdapterPosition;
+            recipeDetails = mRecipeDetail;
+        }
 
         if (adapterPosition == 0) {
             Log.i(TAG,"adapterPosition:"+ adapterPosition);
             outState.putParcelable(KEY_RECYCLER_STATE, ingredientRV.getLayoutManager().onSaveInstanceState());
             outState.putStringArray(KEY_RECIPE_DETAILS,recipeDetails);
             outState.putInt(KEY_ADAPTER_POSITION,adapterPosition);
+
+            Log.i(TAG,"recipeDetails: "+ Arrays.toString(recipeDetails));
 
         }else{
 
@@ -528,11 +539,12 @@ public class RecipeDetailStepsFragment extends Fragment {
             Log.i(TAG,"playPosition: "+playPosition);
 
         }
+
+//        super.onSaveInstanceState(outState);
     }
 
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
 
         Log.i(TAG, "onViewStateRestored");
 
@@ -553,11 +565,9 @@ public class RecipeDetailStepsFragment extends Fragment {
             }
 
         }
+
+        super.onViewStateRestored(savedInstanceState);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.i(TAG, "onResume");
-    }
 }
+

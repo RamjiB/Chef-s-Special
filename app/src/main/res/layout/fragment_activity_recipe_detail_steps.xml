@@ -43,8 +43,8 @@
 
     <TextView
         android:id="@+id/description"
-        android:layout_width="395dp"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="33dp"
         android:visibility="visible"
         android:background="@drawable/description_view_bottom_border"
         android:padding="5dp"
@@ -54,13 +54,16 @@
         android:layout_marginTop="@dimen/recipeDetailTopMargin"
         android:layout_marginStart="@dimen/recipeDetailStartMargin"
         app:layout_constraintTop_toBottomOf="@+id/recipeVideo"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintDimensionRatio="" />
 
 
     <TextView
         android:id="@+id/instructionTV"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="200dp"
         android:layout_marginTop="7dp"
         android:padding="10dp"
         android:visibility="invisible"
@@ -94,9 +97,9 @@
         app:fabSize="mini"
         app:srcCompat="@drawable/ic_previous"
         android:layout_marginStart="@dimen/previous_NextBtMargin"
-        android:layout_marginBottom="@dimen/previous_NextBtMargin"
+        android:layout_marginTop="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@+id/instructionTV" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/nextStep"
@@ -106,9 +109,9 @@
         app:fabSize="mini"
         app:srcCompat="@drawable/ic_next"
         android:layout_marginEnd="@dimen/previous_NextBtMargin"
-        android:layout_marginBottom="@dimen/previous_NextBtMargin"
+        android:layout_marginTop="20dp"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/instructionTV" />
 
 </android.support.constraint.ConstraintLayout>
 

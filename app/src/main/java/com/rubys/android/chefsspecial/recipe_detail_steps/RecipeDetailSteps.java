@@ -2,6 +2,7 @@ package com.rubys.android.chefsspecial.recipe_detail_steps;
 
 
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -13,7 +14,14 @@ import android.view.MenuItem;
 
 import com.rubys.android.chefsspecial.R;
 
+import java.util.Arrays;
+
+import static android.provider.Contacts.SettingsColumns.KEY;
 import static com.rubys.android.chefsspecial.list_of_recipes.ListOfRecipes.RECIPE_NAMES;
+import static com.rubys.android.chefsspecial.recipe_description.Recipe.fragmentManager;
+import static com.rubys.android.chefsspecial.recipe_detail_steps.RecipeDetailStepsFragment.KEY_ADAPTER_POSITION;
+import static com.rubys.android.chefsspecial.recipe_detail_steps.RecipeDetailStepsFragment.KEY_RECIPE_DETAILS;
+import static com.rubys.android.chefsspecial.recipe_detail_steps.RecipeDetailStepsFragment.KEY_RECYCLER_STATE;
 
 
 public class RecipeDetailSteps extends AppCompatActivity {
@@ -21,6 +29,8 @@ public class RecipeDetailSteps extends AppCompatActivity {
     private static final String TAG = "RecipeDetailSteps";
 
     private String recipeName;
+    private RecipeDetailStepsFragment fragment;
+    private FragmentManager mFragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +40,10 @@ public class RecipeDetailSteps extends AppCompatActivity {
 
         //get recipe name from previous activity
         Intent intent = getIntent();
-        if (intent != null){
-            if (intent.hasExtra(RECIPE_NAMES)){
+        if (intent != null) {
+            if (intent.hasExtra(RECIPE_NAMES)) {
                 recipeName = intent.getStringExtra(RECIPE_NAMES);
-                Log.i(TAG,"recipeDetails: "+ recipeName);
+                Log.i(TAG, "recipeDetails: " + recipeName);
             }
         }
 
@@ -49,13 +59,18 @@ public class RecipeDetailSteps extends AppCompatActivity {
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+        Log.i(TAG, "Title setted");
 
-        //Create a recipe detail steps fragment
-        RecipeDetailStepsFragment fragment = new RecipeDetailStepsFragment();
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        if (savedInstanceState == null){
 
-        fragmentManager.beginTransaction().add(R.id.container,fragment).commit();
+            //Create a recipe detail steps fragment
+            fragment = new RecipeDetailStepsFragment();
+
+            mFragmentManager = getSupportFragmentManager();
+
+            mFragmentManager.beginTransaction().add(R.id.container, fragment).commit();
+        }
 
     }
 
