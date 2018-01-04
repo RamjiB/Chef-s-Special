@@ -1,6 +1,8 @@
 package com.rubys.android.chefsspecial.recipe_description;
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -19,29 +21,31 @@ import java.util.Arrays;
 
 import static com.rubys.android.chefsspecial.list_of_recipes.ListOfRecipes.RECIPE_DETAILS;
 import static com.rubys.android.chefsspecial.list_of_recipes.ListOfRecipes.RECIPE_NAMES;
-import static com.rubys.android.chefsspecial.recipe_description.Recipe.fragmentManager;
-import static com.rubys.android.chefsspecial.recipe_description.Recipe.recipeDetailStepsFragment;
-import static com.rubys.android.chefsspecial.recipe_description.Recipe.tabletView;
 
-public class RecipeDescriptionFragment extends Fragment implements RecipeDescriptionListAdapter.ItemClickListener  {
+
+public class RecipeDescriptionFragment extends Fragment{
 
     private static final String TAG = "RecipeFragment";
 
-//    public static final String RECIPE_DETAILS = "Recipe Details";
     public static final String ADAPTER_POSITION = "Adapter Position";
 
     private RecyclerView recipeDescriptionRV;
 
-    private String recipeName;
-
     //saved instance constance
     private final String KEY_RECYCLER_STATE = "recycler_state";
     private Parcelable listState;
-    public static String[] mRecipeDetail;
-    public static int mAdapterPosition;
+    private RecipeDescriptionListAdapter.ItemClickListener clickListener;
 
     //Mandatory empty constructor
     public RecipeDescriptionFragment() {
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof RecipeDescriptionListAdapter.ItemClickListener){
+            clickListener = (RecipeDescriptionListAdapter.ItemClickListener)context;
+        }
     }
 
     @Nullable
@@ -54,22 +58,19 @@ public class RecipeDescriptionFragment extends Fragment implements RecipeDescrip
         final View view = inflater.inflate(R.layout.fragment_recipe_master,container,false);
 
 
-        recipeName = getActivity().getIntent().getStringExtra(RECIPE_NAMES);
+        String recipeName = getActivity().getIntent().getStringExtra(RECIPE_NAMES);
         Log.i(TAG, "recipeName: " + recipeName);
 
         String[] recipeDetails = getActivity().getIntent().getStringArrayExtra(RECIPE_DETAILS);
         Log.i(TAG, "recipeDetails: " + Arrays.toString(recipeDetails));
 
-        mRecipeDetail = recipeDetails;
-
-
         recipeDescriptionRV = (RecyclerView) view.findViewById(R.id.recipeDescriptionRV);
-        
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recipeDescriptionRV.setLayoutManager(linearLayoutManager);
         recipeDescriptionRV.setHasFixedSize(true);
 
-        RecipeDescriptionListAdapter recipeDescriptionListAdapter = new RecipeDescriptionListAdapter(this);
+        RecipeDescriptionListAdapter recipeDescriptionListAdapter = new RecipeDescriptionListAdapter(clickListener);
         recipeDescriptionRV.setAdapter(recipeDescriptionListAdapter);
 
         if (listState != null){
@@ -87,34 +88,12 @@ public class RecipeDescriptionFragment extends Fragment implements RecipeDescrip
     }
 
     @Override
-    public void onItemClick(String[] recipeDetails, int adapterPosition) {
+    public void onResume() {
+        super.onResume();
 
-        Log.i(TAG,"item clicked");
-
-        if (tabletView){
-
-            Log.i(TAG,"tabletView: "+ true);
-            mAdapterPosition = adapterPosition;
-            recipeDetailStepsFragment.initialiseView();
-            recipeDetailStepsFragment.setUpViews(mAdapterPosition,mRecipeDetail,null);
-            try {
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, recipeDetailStepsFragment).commitAllowingStateLoss();
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-
-        }else {
-
-            Intent intent = new Intent(getContext(), RecipeDetailSteps.class);
-            intent.putExtra(ADAPTER_POSITION, adapterPosition);
-            intent.putExtra(RECIPE_DETAILS, recipeDetails);
-            intent.putExtra(RECIPE_NAMES, recipeName);
-            startActivity(intent);
-        }
+        Log.i(TAG,"onResume");
 
     }
-
 
     @Override
     public void onSaveInstanceState(Bundle outState) {

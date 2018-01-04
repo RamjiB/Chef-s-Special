@@ -2,6 +2,7 @@ package com.rubys.android.chefsspecial.recipe_detail_steps;
 
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
@@ -35,6 +36,7 @@ import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.rubys.android.chefsspecial.R;
+import com.rubys.android.chefsspecial.recipe_description.Recipe;
 import com.squareup.picasso.Picasso;
 
 import java.util.Arrays;
@@ -42,10 +44,10 @@ import java.util.Objects;
 
 import static android.view.View.GONE;
 import static com.rubys.android.chefsspecial.list_of_recipes.ListOfRecipes.RECIPE_DETAILS;
+import static com.rubys.android.chefsspecial.recipe_description.Recipe.mAdapterPosition;
+import static com.rubys.android.chefsspecial.recipe_description.Recipe.mRecipeDetail;
 import static com.rubys.android.chefsspecial.recipe_description.Recipe.tabletView;
 import static com.rubys.android.chefsspecial.recipe_description.RecipeDescriptionFragment.ADAPTER_POSITION;
-import static com.rubys.android.chefsspecial.recipe_description.RecipeDescriptionFragment.mAdapterPosition;
-import static com.rubys.android.chefsspecial.recipe_description.RecipeDescriptionFragment.mRecipeDetail;
 
 
 public class RecipeDetailStepsFragment extends Fragment {
@@ -124,7 +126,7 @@ public class RecipeDetailStepsFragment extends Fragment {
 
                 initialiseView();
 
-                setUpViews(savedPosition, savedRecipe,listState);
+                setUpViews(savedPosition, savedRecipe,listState,getContext());
 
                 initFullScreenDialog();
                 openFullscreenDialog();
@@ -142,7 +144,7 @@ public class RecipeDetailStepsFragment extends Fragment {
 
                 initialiseView();
 
-                setUpViews(savedPosition, savedRecipe, listState);
+                setUpViews(savedPosition, savedRecipe, listState,getContext());
 
                 setNextFloatingButton();
 
@@ -169,7 +171,7 @@ public class RecipeDetailStepsFragment extends Fragment {
 
                         initialiseView();
 
-                        setUpViews(adapterPosition, recipeDetails, listState);
+                        setUpViews(adapterPosition, recipeDetails, listState,getContext());
 
                         setNextFloatingButton();
 
@@ -180,7 +182,10 @@ public class RecipeDetailStepsFragment extends Fragment {
 
                         initialiseView();
 
-                        setUpViews(0, mRecipeDetail, listState);
+                        Log.i(TAG, "mAdapterPosition: " + mAdapterPosition);
+                        Log.i(TAG, "mRecipeDetail: " + Arrays.toString(mRecipeDetail));
+                        Log.i(TAG, "listState: " + listState);
+                        setUpViews(mAdapterPosition, mRecipeDetail, listState,getContext());
                         nextStep.setVisibility(View.GONE);
                         previousStep.setVisibility(View.GONE);
 
@@ -214,7 +219,7 @@ public class RecipeDetailStepsFragment extends Fragment {
 
     }
 
-    public void setUpViews(int adapterPosition, String[] recipeDetails, Parcelable listState) {
+    public void setUpViews(int adapterPosition, String[] recipeDetails, Parcelable listState,Context context) {
 
         Log.i(TAG,"setUpViews");
 
@@ -258,7 +263,7 @@ public class RecipeDetailStepsFragment extends Fragment {
                     nextStep.setVisibility(View.INVISIBLE);
                 }
 
-                setVideoPlayer(videoURL);
+                setVideoPlayer(videoURL,context);
 
                 //Instruction text
                 int DESCRIPTION = 1;
@@ -267,7 +272,7 @@ public class RecipeDetailStepsFragment extends Fragment {
             }else{
                 Log.i(TAG,"landscape view");
 
-                setVideoPlayer(videoURL);
+                setVideoPlayer(videoURL,context);
             }
 
         }
@@ -301,7 +306,7 @@ public class RecipeDetailStepsFragment extends Fragment {
         }
     }
 
-    private void setVideoPlayer(String videoURL){
+    private void setVideoPlayer(String videoURL,Context context){
 
         if (Objects.equals(videoURL, " ")) {
 
@@ -327,17 +332,15 @@ public class RecipeDetailStepsFragment extends Fragment {
             //create loader
             LoadControl loadControl = new DefaultLoadControl();
 
-            if(getContext() != null) {
-                //Create the player
-                mExoPlayer = ExoPlayerFactory.newSimpleInstance(getContext(), trackSelector, loadControl);
-                Log.i(TAG, "mExoPlayer: " + mExoPlayer);
-            }
+            //Create the player
+            mExoPlayer = ExoPlayerFactory.newSimpleInstance(context, trackSelector, loadControl);
+            Log.i(TAG, "mExoPlayer: " + mExoPlayer);
 
             try {
 
                 //Prepare the Media source
                 MediaSource mediaSource = new ExtractorMediaSource(Uri.parse(videoURL),
-                        new DefaultDataSourceFactory(getContext(), Util.getUserAgent(getContext(), "Chef")),
+                        new DefaultDataSourceFactory(context, Util.getUserAgent(context, "Chef")),
                         new DefaultExtractorsFactory(), null, null);
 
                 LoopingMediaSource loopingMediaSource = new LoopingMediaSource(mediaSource);
@@ -415,7 +418,7 @@ public class RecipeDetailStepsFragment extends Fragment {
 
                 if (adapterPosition < recipeDetails.length) {
                     playPosition = null;
-                    setUpViews(adapterPosition, recipeDetails,null);
+                    setUpViews(adapterPosition, recipeDetails,null,getContext());
                     mExoPlayer.setPlayWhenReady(false);
                 }
             }
@@ -434,7 +437,7 @@ public class RecipeDetailStepsFragment extends Fragment {
 
                 if (adapterPosition > -1) {
                     playPosition = null;
-                    setUpViews(adapterPosition, recipeDetails,null);
+                    setUpViews(adapterPosition, recipeDetails,null,getContext());
                     mExoPlayer.setPlayWhenReady(false);
                 }
             }
@@ -558,6 +561,7 @@ public class RecipeDetailStepsFragment extends Fragment {
                 Log.i(TAG,"onViewStateRestored recipeDetails: "+ Arrays.toString(recipeDetails));
                 Log.i(TAG,"onViewStateRestored adapterPosition: "+adapterPosition);
                 Log.i(TAG,"onViewStateRestored landscape: "+mExoPlayerFullscreen);
+
             }else{
                 listState = savedInstanceState.getParcelable(KEY_RECYCLER_STATE);
                 adapterPosition = savedInstanceState.getInt(KEY_ADAPTER_POSITION);

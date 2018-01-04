@@ -17,6 +17,7 @@ public class RecipeDescriptionListAdapter extends
     private static final String TAG = "RecipeDescripListAdap";
 
     private final ItemClickListener mItemClickListener;
+
     private String[] mRecipeDetails;
 
     /**
